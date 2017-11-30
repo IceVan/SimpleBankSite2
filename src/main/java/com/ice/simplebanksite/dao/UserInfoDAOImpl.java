@@ -31,13 +31,14 @@ public class UserInfoDAOImpl extends JdbcDaoSupport implements UserInfoDAO {
 
     @Override
     public UserInfo findUserInfo(String userName) {
-        String sql = "Select u.Username,u.Password "//
-                + " from Users u where u.Username = ? ";
+//        String sql = "Select u.Username,u.Password from Users u where u.Username = ? ";
+        String sql = "Select u.Username,u.Password from Users u where u.Username = '" + userName + "'";
 
         Object[] params = new Object[] { userName };
         UserInfoMapper mapper = new UserInfoMapper();
         try {
-            UserInfo userInfo = this.getJdbcTemplate().queryForObject(sql, params, mapper);
+//            UserInfo userInfo = this.getJdbcTemplate().queryForObject(sql, params, mapper);
+            UserInfo userInfo = this.getJdbcTemplate().queryForObject(sql, mapper);
 
             System.out.println(userInfo.getPassword() + " ---- hash ----" + passwordEncoder.encode(userInfo.getPassword()));
             System.out.println(" ---- hash: System.out.println(userInfo.getPassword() + \" ---- hash ----\" + new PasswordAuthentication().hash(userInfo.getPassword())); ----" + new PasswordAuthentication().authenticate(userInfo.getPassword().toCharArray(),"$31$16$7qE89abML867DKD-qhD02cPxJDPZtqQATWbTq2Lm75w"));

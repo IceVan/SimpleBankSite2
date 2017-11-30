@@ -32,7 +32,7 @@ public class TransactionDAOImpl extends JdbcDaoSupport implements TransactionDAO
     public TransactionDAOImpl(DataSource dataSource) { this.setDataSource(dataSource);}
 
     //td
-    @Override
+    /*@Override
     public boolean createTransaction(Transactions transaction)
     {
         int rows = getRowsCount();
@@ -53,6 +53,16 @@ public class TransactionDAOImpl extends JdbcDaoSupport implements TransactionDAO
         rows = this.getJdbcTemplate().update(sql, params, types);
         if(rows == 1)   return  true;
         else            return false;
+    }*/
+
+    @Override
+    public boolean createTransaction(Transactions transaction)
+    {
+        int rows = getRowsCount();
+        String sql = "INSERT INTO transactions (ID, USER_ID, ADDRESS, DESCRIPTION, AMOUNT, TRANSACTION_STATUS) VALUES("+(rows+1)+",'"+userDao.getUserId(transaction.getUser())+"','"+transaction.getAccountAddress()+"','"+transaction.getDescription()+"',"+transaction.getAmount()+",0)";
+
+        this.getJdbcTemplate().batchUpdate(sql);
+        return true;
     }
 
     @Override

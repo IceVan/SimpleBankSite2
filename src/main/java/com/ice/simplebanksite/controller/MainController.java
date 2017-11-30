@@ -83,7 +83,6 @@ public class MainController {
             if(ga.getAuthority().compareTo("ROLE_ADMIN") == 0) return "transactionsAdmin";
         }
         model.addAttribute("transactionResult", transaction);
-        model.addAttribute("message", "This is welcome page!");
         return "transactionResult";
     }
 
@@ -110,6 +109,7 @@ public class MainController {
             if(ga.getAuthority().compareTo("ROLE_ADMIN") == 0) return "transactionsAdmin";
         }
         transaction.setUser(auth.getName());
+        System.out.println(transactionDAO.createTransaction(transaction));
         return "redirect:/transactions";
     }
 //--------------------------------------------------------------------------------
